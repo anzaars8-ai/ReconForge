@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>BBRecon Dashboard</title>
+<style>
+:root{--bg:#0d1117;--bg2:#161b22;--bg3:#1c2128;--border:#30363d;--text:#c9d1d9;--text2:#8b949e;--accent:#58a6ff;--green:#3fb950;--yellow:#d29922;--red:#f85149;--purple:#bc8cff}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.header{background:var(--bg2);border-bottom:1px solid var(--border);padding:20px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.header h1{color:var(--accent)}
+.header .subtitle{color:var(--text2);font-size:0.85em}
+.container{max-width:1400px;margin:0 auto;padding:20px}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;margin-bottom:30px}
+.stat-card{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:20px;text-align:center}
+.stat-card .num{font-size:2em;font-weight:bold;color:var(--accent)}
+.stat-card .label{color:var(--text2);font-size:0.85em;margin-top:5px}
+.scan-item{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:15px 20px;margin-bottom:10px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:all .2s}
+.scan-item:hover{border-color:var(--accent);background:var(--bg2)}
+.scan-item .target{font-weight:bold;color:var(--accent);font-size:1.1em}
+.scan-item .meta{color:var(--text2);font-size:0.85em;margin-top:3px}
+.scan-item .badges{display:flex;gap:5px;flex-wrap:wrap}
+.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.78em;font-weight:bold}
+.badge-green{background:#3fb95033;color:var(--green);border:1px solid var(--green)}
+.badge-red{background:#f8514933;color:var(--red);border:1px solid var(--red)}
+.badge-yellow{background:#d2992233;color:var(--yellow);border:1px solid var(--yellow)}
+.badge-purple{background:#bc8cff33;color:var(--purple);border:1px solid var(--purple)}
+.badge-blue{background:#58a6ff33;color:var(--accent);border:1px solid var(--accent)}
+.info-box{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:20px;margin:20px 0;line-height:1.8}
+.info-box h3{color:var(--accent);margin-bottom:10px}
+.info-box code{background:var(--bg2);padding:2px 6px;border-radius:4px;color:var(--green);font-size:0.9em}
+.tool-tag{display:inline-block;background:#1f6feb33;color:var(--accent);border:1px solid #1f6feb;padding:2px 8px;border-radius:10px;font-size:0.75em;margin:2px}
+</style>
+</head>
+<body>
+<div class="header">
+    <div>
+        <h1>BBRecon Dashboard</h1>
+        <div class="subtitle">Multi-Target Bug Bounty Reconnaissance Framework</div>
+    </div>
+    <span id="count" style="color:var(--text2)">Loading...</span>
+</div>
+<div class="container">
+
+<div class="stats-grid">
+    <div class="stat-card"><div class="num" id="s-targets">-</div><div class="label">Targets</div></div>
+    <div class="stat-card"><div class="num" id="s-subs">-</div><div class="label">Subdomains</div></div>
+    <div class="stat-card"><div class="num" id="s-takeovers">-</div><div class="label">Takeovers</div></div>
+    <div class="stat-card"><div class="num" id="s-vulns">-</div><div class="label">Vulnerabilities</div></div>
+    <div class="stat-card"><div class="num" id="s-secrets">-</div><div class="label">Secrets</div></div>
+</div>
+
+<div class="info-box">
+    <h3>Quick Reference</h3>
+    <p>
+        <span class="badge badge-red">Takeover</span> = Claim unclaimed cloud services (AWS S3, Heroku, GitHub Pages)<br>
+        <span class="badge badge-yellow">Vuln</span> = Nuclei template matches (CVEs, misconfigs)<br>
+        <span class="badge badge-purple">Secrets</span> = API keys, tokens, passwords in JS files<br>
+        <span class="badge badge-blue">Alive</span> = Live hosts confirmed by httpx<br>
+        <span class="badge badge-green">Clean</span> = No critical issues detected
+    </p>
+    <p style="margin-top:10px;font-size:0.9em">
+        <strong>Tools used:</strong>
+        <span class="tool-tag">subfinder</span>
+        <span class="tool-tag">assetfinder</span>
+        <span class="tool-tag">gau</span>
+        <span class="tool-tag">katana</span>
+        <span class="tool-tag">httpx</span>
+        <span class="tool-tag">naabu</span>
+        <span class="tool-tag">nmap</span>
+        <span class="tool-tag">nuclei</span>
+    </p>
+</div>
+
+<div id="scans">Loading scans...</div>
+
+<button onclick="location.href='/debug'" style="background:var(--bg3);color:var(--text2);border:1px solid var(--border);border-radius:4px;padding:8px 15px;margin-top:15px;cursor:pointer;font-size:0.85em">🔍 Debug: View Results Directory</button>
+</div>
+
+<script>
+async function load(){
+try{
+const r=await fetch('/api/scans');
+const scans=await r.json();
+let totalTargets=scans.length, totalSubs=0, totalTakeovers=0, totalVulns=0, totalSecrets=0;
+
+document.getElementById('scans').innerHTML = scans.length ? '' : '<p style="color:var(--text2);padding:20px">No scans completed yet.<br><br>Run: <code style="background:var(--bg3);padding:2px 8px;border-radius:4px">python main.py -d example.com</code><br>Or: <code style="background:var(--bg3);padding:2px 8px;border-radius:4px">python main.py -d domain1.com,domain2.com,domain3.com</code></p>';
+
+scans.forEach(s=>{
+    totalSubs += s.subdomains;
+    totalTakeovers += s.takeovers;
+    totalVulns += s.vulns;
+    totalSecrets += s.secrets;
+    
+    const d=document.createElement('div');
+    d.className='scan-item';
+    
+    let badges = '';
+    if (s.takeovers > 0) badges += '<span class="badge badge-red">' + s.takeovers + ' takeover</span> ';
+    if (s.vulns > 0) badges += '<span class="badge badge-yellow">' + s.vulns + ' vulns</span> ';
+    if (s.secrets > 0) badges += '<span class="badge badge-purple">' + s.secrets + ' secrets</span> ';
+    badges += '<span class="badge badge-blue">' + s.alive + ' alive</span> ';
+    if (!s.takeovers && !s.vulns && !s.secrets) badges += '<span class="badge badge-green">Clean</span>';
+    
+    d.innerHTML='<div><div class="target">' + s.target + '</div><div class="meta">' + new Date(s.date).toLocaleString() + ' | ' + s.subdomains + ' subdomains</div></div><div class="badges">' + badges + '</div>';
+    
+    d.onclick = function() {
+        const url = '/report/' + encodeURIComponent(s.path);
+        console.log('Opening:', url);
+        window.open(url, '_blank');
+    };
+    
+    document.getElementById('scans').appendChild(d);
+});
+
+document.getElementById('s-targets').textContent = totalTargets;
+document.getElementById('s-subs').textContent = totalSubs;
+document.getElementById('s-takeovers').textContent = totalTakeovers;
+document.getElementById('s-vulns').textContent = totalVulns;
+document.getElementById('s-secrets').textContent = totalSecrets;
+document.getElementById('count').textContent = totalTargets + ' targets';
+
+} catch(e) {
+    document.getElementById('scans').innerHTML = '<p style="color:var(--red)">Error: ' + e.message + '</p>';
+}
+}
+
+load();
+setInterval(load, 30000);
+</script>
+</body>
+</html>

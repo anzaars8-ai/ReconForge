@@ -1,0 +1,20 @@
+# Basic scan
+python main.py -d example.com
+
+# Scan with more threads (faster)
+python main.py -d example.com -t 100
+
+# Scan + automatically open web dashboard after
+python main.py -d example.com --web
+
+# Custom output directory
+python main.py -d example.com -o /tmp/my_scan_results
+
+# Use a custom wordlist for directory brute-force
+python main.py -d example.com -w /path/to/wordlist.txt
+
+# Web dashboard only (browse past scan results)
+python main.py --web-only
+
+# Web dashboard on a specific port
+python main.py --web-only --port 8080
