@@ -1,9 +1,9 @@
+venv/
+.env
 __pycache__/
 *.pyc
-*.pyo
-.env
-venv/
-results/*
-!results/.gitkeep
-logs/
-*.zip
+.pytest_cache/
+*.log
+*.db
+*.sqlite
+.DS_Store

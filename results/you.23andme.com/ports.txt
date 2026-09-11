@@ -1,0 +1,8 @@
+you.23andme.com:8443/unknown
+you.23andme.com:8080/unknown
+you.23andme.com:80/unknown
+you.23andme.com:443/unknown
+you.23andme.com:80/http
+you.23andme.com:443/ssl/http
+you.23andme.com:8080/http
+you.23andme.com:8443/ssl/http

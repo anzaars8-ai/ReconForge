@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Recon Report - firstcry.com</title>
+<style>
+body{font-family:'Segoe UI',sans-serif;background:#0d1117;color:#c9d1d9;padding:20px;}
+.container{max-width:1200px;margin:0 auto;}
+h1,h2{color:#58a6ff;}
+h2{border-bottom:1px solid #30363d;padding-bottom:8px;margin:30px 0 20px;}
+h3{color:#58a6ff;margin:15px 0 5px;}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:15px;margin:20px 0;}
+.stat-card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:20px;text-align:center;}
+.stat-card .num{font-size:2em;font-weight:bold;color:#58a6ff;}
+.stat-card .label{color:#8b949e;font-size:0.85em;margin-top:5px;}
+.subdomain-item{background:#161b22;border:1px solid #30363d;border-radius:6px;padding:10px 15px;margin:5px 0;display:flex;justify-content:space-between;}
+.alive{border-left:4px solid #3fb950;}
+.dead{border-left:4px solid #f85149;}
+table{width:100%;border-collapse:collapse;margin:10px 0;}
+th,td{padding:10px;text-align:left;border-bottom:1px solid #30363d;}
+th{background:#161b22;color:#58a6ff;}
+tr:hover{background:#1c2128;}
+.badge{display:inline-block;padding:2px 8px;border-radius:12px;font-size:0.8em;margin:2px;}
+.badge-open{background:#3fb95033;color:#3fb950;border:1px solid #3fb950;}
+.tech-tag{display:inline-block;background:#1f6feb33;color:#58a6ff;border:1px solid #1f6feb;padding:2px 8px;border-radius:12px;margin:2px;font-size:0.85em;}
+.vuln-box{border:2px solid;border-radius:8px;padding:15px;margin:10px 0;}
+.vuln-high{border-color:#f85149;background:#f8514911;}
+.vuln-medium{border-color:#d29922;background:#d2992211;}
+.vuln-low{border-color:#3fb950;background:#3fb95011;}
+.action{background:#1c2128;border:1px solid #30363d;border-radius:6px;padding:10px;margin-top:10px;}
+.action code{display:block;background:#0d1117;padding:8px;border-radius:4px;margin:5px 0;color:#3fb950;font-size:0.9em;word-break:break-all;}
+.footer{text-align:center;color:#8b949e;margin-top:40px;padding-top:20px;border-top:1px solid #30363d;font-size:0.85em;}
+.risk-high{color:#f85149;font-weight:bold;}
+.risk-medium{color:#d29922;font-weight:bold;}
+.risk-low{color:#3fb950;font-weight:bold;}
+.tools-used{margin:10px 0;}
+.tools-used span{display:inline-block;background:#1f6feb33;color:#58a6ff;border:1px solid #1f6feb;padding:2px 8px;border-radius:10px;font-size:0.8em;margin:2px;}
+.secret-item{background:#f8514911;border:1px solid #f85149;border-radius:4px;padding:8px;margin:5px 0;font-family:monospace;font-size:0.9em;color:#f85149;}
+@media print{body{background:white;color:black;}.vuln-box{break-inside:avoid;}}
+</style></head>
+<body><div class="container">
+
+<h1>Bug Bounty Recon Report</h1>
+<p style="color:#8b949e">Target: <strong>firstcry.com</strong> | 2026-06-12 18:45:40 | Duration: 4m 3s</p>
+
+<div class="tools-used">Tools: <span>arjun</span> <span>assetfinder</span> <span>dirsearch</span> <span>ffuf</span> <span>gau</span> <span>gitleaks</span> <span>gobuster</span> <span>httpx</span> <span>katana</span> <span>linkfinder</span> <span>naabu</span> <span>nmap</span> <span>nuclei</span> <span>subfinder</span> <span>trufflehog</span> <span>waybackurls</span></div>
+
+<div class="stats">
+<div class="stat-card"><div class="num">29</div><div class="label">Subdomains</div></div>
+<div class="stat-card"><div class="num">15</div><div class="label">Live Hosts</div></div>
+<div class="stat-card"><div class="num">39</div><div class="label">Open Ports</div></div>
+<div class="stat-card"><div class="num">54</div><div class="label">Technologies</div></div>
+<div class="stat-card"><div class="num">0</div><div class="label">Takeover Vulns</div></div>
+<div class="stat-card"><div class="num">0</div><div class="label">Nuclei Vulns</div></div>
+<div class="stat-card"><div class="num">0</div><div class="label">Secrets Found</div></div>
+</div>
+
+
+<div class="vuln-box vuln-medium">
+    <h3>Expired SSL Certificate</h3>
+    <p><strong class="risk-medium">MEDIUM</strong> — store.firstcry.com</p>
+    <p>Certificate expired 1916 days ago.</p>
+    <div class="action">
+        <h4>What to do:</h4>
+        <code>openssl s_client -connect store.firstcry.com:443 -servername store.firstcry.com 2>/dev/null | openssl x509 -noout -dates</code>
+        <code>Indicates poor maintenance — possible MiTM vector</code>
+    </div>
+</div>
+
+<h2>WHOIS</h2>
+<table>
+<tr><td>Registrar</td><td>GoDaddy.com, LLC</td></tr>
+<tr><td>Organization</td><td>N/A</td></tr>
+<tr><td>Country</td><td>N/A</td></tr>
+<tr><td>Created</td><td>2010-08-06 16:06:40+00:00</td></tr>
+<tr><td>Expires</td><td>2026-08-06 16:06:40+00:00</td></tr>
+</table>
+
+<h2>DNS Records</h2><table><tr><th>Type</th><th>Value</th></tr><tr><td>A</td><td>3.7.108.7</td></tr><tr><td>MX</td><td>0 firstcry-com.mail.protection.outlook.com.</td></tr><tr><td>NS</td><td>pdns08.domaincontrol.com., pdns07.domaincontrol.com.</td></tr><tr><td>TXT</td><td>"v=spf1 include:spf.protection.outlook.com include:spf.cloudsmtp.net ~all", "facebook-domain-verification=s9httssan8x2v47hdjbx8fdmabtdzq", "cloud-mail-verification=il3P4efr", "google-site-verification=WWVI8MMHKy6izUpjt958CqdHfmKZ3Bi4__QkCTA-gXY", "v=spf1 include:amazonses.com ~all"</td></tr><tr><td>SOA</td><td>pdns07.domaincontrol.com. dns.jomax.net. 2026030600 28800 7200 604800 600</td></tr></table>
+
+<h2>Subdomains (29)</h2>
+<div class="subdomain-item alive"><span>arabiaparenting.firstcry.com</span><span>200</span></div>
+<div class="subdomain-item alive"><span>banglaparenting.firstcry.com</span><span>200</span></div>
+<div class="subdomain-item dead"><span>blog.firstcry.com</span><span></span></div>
+<div class="subdomain-item alive"><span>cdn.firstcry.com</span><span>404</span></div>
+<div class="subdomain-item alive"><span>checkout.firstcry.com</span><span>200</span></div>
+<div class="subdomain-item alive"><span>cwvparenting.firstcry.com</span><span>200</span></div>
+<div class="subdomain-item alive"><span>fclinks.firstcry.com</span><span>403</span></div>
+<div class="subdomain-item alive"><span>firstcry.com</span><span>200</span></div>
+<div class="subdomain-item alive"><span>hindiparenting.firstcry.com</span><span>200</span></div>
+<div class="subdomain-item dead"><span>intelli.firstcry.com</span><span></span></div>
+<div class="subdomain-item alive"><span>m.firstcry.com</span><span>404</span></div>
+<div class="subdomain-item alive"><span>marathiparenting.firstcry.com</span><span>200</span></div>
+<div class="subdomain-item dead"><span>marketing.firstcry.com</span><span></span></div>
+<div class="subdomain-item dead"><span>myaccount.firstcry.com</span><span></span></div>
+<div class="subdomain-item alive"><span>parenting.firstcry.com</span><span>200</span></div>
+<div class="subdomain-item dead"><span>pay.firstcry.com</span><span></span></div>
+<div class="subdomain-item alive"><span>playbees.firstcry.com</span><span>200</span></div>
+<div class="subdomain-item dead"><span>production.firstcry.com</span><span></span></div>
+<div class="subdomain-item dead"><span>secure.firstcry.com</span><span></span></div>
+<div class="subdomain-item dead"><span>smtpind.firstcry.com</span><span></span></div>
+<div class="subdomain-item dead"><span>stage.firstcry.com</span><span></span></div>
+<div class="subdomain-item dead"><span>stageparenting.firstcry.com</span><span></span></div>
+<div class="subdomain-item alive"><span>store.firstcry.com</span><span>200</span></div>
+<div class="subdomain-item alive"><span>uavsys.firstcry.com</span><span>200</span></div>
+<div class="subdomain-item dead"><span>www.cdn.firstcry.com</span><span></span></div>
+<div class="subdomain-item dead"><span>www.checkout.firstcry.com</span><span></span></div>
+<div class="subdomain-item alive"><span>www.firstcry.com</span><span>200</span></div>
+<div class="subdomain-item dead"><span>www.parenting.firstcry.com</span><span></span></div>
+<div class="subdomain-item dead"><span>www.secure.firstcry.com</span><span></span></div>
+
+<h2>Open Ports (39)</h2>
+<table><tr><th>Host</th><th>Port</th><th>Service</th><th>State</th></tr>
+<tr><td>arabiaparenting.firstcry.com</td><td>443</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>arabiaparenting.firstcry.com</td><td>80</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>arabiaparenting.firstcry.com</td><td>80</td><td>http</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>arabiaparenting.firstcry.com</td><td>443</td><td>ssl/http</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>banglaparenting.firstcry.com</td><td>80</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>banglaparenting.firstcry.com</td><td>443</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>banglaparenting.firstcry.com</td><td>80</td><td>http</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>banglaparenting.firstcry.com</td><td>443</td><td>ssl/http</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>cdn.firstcry.com</td><td>80</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>cdn.firstcry.com</td><td>443</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>cdn.firstcry.com</td><td>80</td><td>http</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>cdn.firstcry.com</td><td>443</td><td>ssl/http</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>checkout.firstcry.com</td><td>443</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>checkout.firstcry.com</td><td>443</td><td>ssl/http</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>cwvparenting.firstcry.com</td><td>80</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>cwvparenting.firstcry.com</td><td>443</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>cwvparenting.firstcry.com</td><td>80</td><td>http</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>cwvparenting.firstcry.com</td><td>443</td><td>ssl/http</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>fclinks.firstcry.com</td><td>8443</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>fclinks.firstcry.com</td><td>8080</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>fclinks.firstcry.com</td><td>80</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>fclinks.firstcry.com</td><td>443</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>firstcry.com</td><td>80</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>firstcry.com</td><td>443</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>hindiparenting.firstcry.com</td><td>80</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>hindiparenting.firstcry.com</td><td>443</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>m.firstcry.com</td><td>443</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>m.firstcry.com</td><td>80</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>marathiparenting.firstcry.com</td><td>80</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>marathiparenting.firstcry.com</td><td>443</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>parenting.firstcry.com</td><td>80</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>parenting.firstcry.com</td><td>443</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>playbees.firstcry.com</td><td>443</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>playbees.firstcry.com</td><td>80</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>store.firstcry.com</td><td>443</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>store.firstcry.com</td><td>80</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>uavsys.firstcry.com</td><td>80</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>www.firstcry.com</td><td>443</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+<tr><td>www.firstcry.com</td><td>80</td><td>unknown</td><td><span class='badge badge-open'>open</span></td></tr>
+</table>
+
+<h2>Technologies Detected (54)</h2>
+<h3>arabiaparenting.firstcry.com</h3><div><span class="tech-tag">WordPress</span> <span class="tech-tag">Apache</span> <span class="tech-tag">Nginx</span> <span class="tech-tag">Cloudflare</span> <span class="tech-tag">PHP</span> <span class="tech-tag">Node.js</span> <span class="tech-tag">Joomla</span> <span class="tech-tag">Laravel</span> <span class="tech-tag">ASP.NET</span></div>
+<h3>banglaparenting.firstcry.com</h3><div><span class="tech-tag">WordPress</span> <span class="tech-tag">Apache</span> <span class="tech-tag">Nginx</span> <span class="tech-tag">Cloudflare</span> <span class="tech-tag">Node.js</span> <span class="tech-tag">Joomla</span></div>
+<h3>checkout.firstcry.com</h3><div><span class="tech-tag">Apache</span> <span class="tech-tag">Nginx</span> <span class="tech-tag">Cloudflare</span> <span class="tech-tag">Node.js</span></div>
+<h3>cwvparenting.firstcry.com</h3><div><span class="tech-tag">WordPress</span> <span class="tech-tag">Apache</span> <span class="tech-tag">Nginx</span> <span class="tech-tag">Cloudflare</span> <span class="tech-tag">Node.js</span></div>
+<h3>firstcry.com</h3><div><span class="tech-tag">Apache</span> <span class="tech-tag">Nginx</span> <span class="tech-tag">Cloudflare</span> <span class="tech-tag">Node.js</span></div>
+<h3>hindiparenting.firstcry.com</h3><div><span class="tech-tag">WordPress</span> <span class="tech-tag">Apache</span> <span class="tech-tag">Nginx</span> <span class="tech-tag">Cloudflare</span> <span class="tech-tag">Node.js</span></div>
+<h3>marathiparenting.firstcry.com</h3><div><span class="tech-tag">WordPress</span> <span class="tech-tag">Apache</span> <span class="tech-tag">Nginx</span> <span class="tech-tag">Cloudflare</span> <span class="tech-tag">Node.js</span></div>
+<h3>playbees.firstcry.com</h3><div><span class="tech-tag">Apache</span> <span class="tech-tag">Nginx</span> <span class="tech-tag">Cloudflare</span> <span class="tech-tag">Node.js</span></div>
+<h3>store.firstcry.com</h3><div><span class="tech-tag">Apache</span> <span class="tech-tag">Nginx</span> <span class="tech-tag">Cloudflare</span> <span class="tech-tag">Node.js</span></div>
+<h3>uavsys.firstcry.com</h3><div><span class="tech-tag">Apache</span> <span class="tech-tag">Nginx</span> <span class="tech-tag">Cloudflare</span> <span class="tech-tag">Node.js</span></div>
+<h3>www.firstcry.com</h3><div><span class="tech-tag">Apache</span> <span class="tech-tag">Nginx</span> <span class="tech-tag">Cloudflare</span> <span class="tech-tag">Node.js</span></div>
+
+<h2>SSL Certificates</h2><table><tr><th>Host</th><th>Issuer</th><th>Expiry</th><th>Days Left</th></tr>
+<tr><td>arabiaparenting.firstcry.com</td><td><Name(CN=Go Daddy Secure Certificate Aut</td><td>2026-09-21 11:21:53+00:00</td><td>100</td></tr>
+<tr><td>banglaparenting.firstcry.com</td><td><Name(CN=Go Daddy Secure Certificate Aut</td><td>2026-09-21 11:21:53+00:00</td><td>100</td></tr>
+<tr><td>cdn.firstcry.com</td><td><Name(CN=Go Daddy Secure Certificate Aut</td><td>2026-09-21 11:21:53+00:00</td><td>100</td></tr>
+<tr><td>checkout.firstcry.com</td><td><Name(CN=Amazon RSA 2048 M01,O=Amazon,C=</td><td>2026-09-21 23:59:59+00:00</td><td>101</td></tr>
+<tr><td>cwvparenting.firstcry.com</td><td><Name(CN=Go Daddy Secure Certificate Aut</td><td>2026-09-21 11:21:53+00:00</td><td>100</td></tr>
+<tr><td>fclinks.firstcry.com</td><td><Name(CN=E8,O=Let's Encrypt,C=US)></td><td>2026-08-02 21:24:49+00:00</td><td>51</td></tr>
+<tr><td>firstcry.com</td><td><Name(CN=Amazon RSA 2048 M01,O=Amazon,C=</td><td>2026-11-10 23:59:59+00:00</td><td>151</td></tr>
+<tr><td>hindiparenting.firstcry.com</td><td><Name(CN=Go Daddy Secure Certificate Aut</td><td>2026-09-21 11:21:53+00:00</td><td>100</td></tr>
+<tr><td>m.firstcry.com</td><td><Name(CN=RapidSSL TLS RSA CA G1,OU=www.d</td><td>2026-11-04 23:59:59+00:00</td><td>145</td></tr>
+<tr><td>marathiparenting.firstcry.com</td><td><Name(CN=Go Daddy Secure Certificate Aut</td><td>2026-09-21 11:21:53+00:00</td><td>100</td></tr>
+<tr><td>parenting.firstcry.com</td><td><Name(CN=Go Daddy Secure Certificate Aut</td><td>2026-09-21 11:21:53+00:00</td><td>100</td></tr>
+<tr><td>playbees.firstcry.com</td><td><Name(CN=Amazon RSA 2048 M04,O=Amazon,C=</td><td>2026-12-26 23:59:59+00:00</td><td>197</td></tr>
+<tr><td>store.firstcry.com</td><td><Name(CN=Go Daddy Secure Certificate Aut</td><td>2021-03-15 10:18:27+00:00</td><td>-1916</td></tr>
+<tr><td>uavsys.firstcry.com</td><td><Name(CN=Amazon RSA 2048 M01,O=Amazon,C=</td><td>2026-11-23 23:59:59+00:00</td><td>164</td></tr>
+<tr><td>www.firstcry.com</td><td><Name(CN=Go Daddy Secure Certificate Aut</td><td>2026-09-21 11:21:53+00:00</td><td>100</td></tr>
+</table>
+
+
+
+<div class="footer">Generated by BBRecon | 2026-06-12 18:45:40 | Target: firstcry.com</div>
+</div></body></html>

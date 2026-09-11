@@ -1,0 +1,197 @@
+{
+  "target": "youtube.com",
+  "start_time": "2026-06-05T18:19:22.539411",
+  "subdomains": [
+    "accountlinking-pa-clients6.youtube.com"
+  ],
+  "alive_hosts": {
+    "accountlinking-pa-clients6.youtube.com": {
+      "status_codes": {
+        "https://accountlinking-pa-clients6.youtube.com": 404,
+        "http://accountlinking-pa-clients6.youtube.com": 404
+      },
+      "urls": [
+        "https://accountlinking-pa-clients6.youtube.com",
+        "http://accountlinking-pa-clients6.youtube.com"
+      ]
+    }
+  },
+  "open_ports": {
+    "accountlinking-pa-clients6.youtube.com": [
+      "PortResult(port=80, state='open', service='HTTP', banner=None)",
+      "PortResult(port=443, state='open', service='HTTPS', banner=None)"
+    ]
+  },
+  "technologies": {
+    "accountlinking-pa-clients6.youtube.com": {
+      "Apache": {
+        "version": "Unknown",
+        "confidence": 25,
+        "evidence": [
+          "Header: Server=ESF"
+        ]
+      },
+      "Nginx": {
+        "version": "Unknown",
+        "confidence": 25,
+        "evidence": [
+          "Header: Server=ESF"
+        ]
+      },
+      "Cloudflare": {
+        "version": "Unknown",
+        "confidence": 25,
+        "evidence": [
+          "Header: Server=ESF"
+        ]
+      },
+      "Node.js": {
+        "version": "Unknown",
+        "confidence": 25,
+        "evidence": [
+          "Header: Server=ESF"
+        ]
+      }
+    }
+  },
+  "directories": {},
+  "whois_dns": {
+    "domain": "youtube.com",
+    "whois": {
+      "registrar": "MarkMonitor, Inc.",
+      "registrant": "N/A",
+      "organization": "Google LLC",
+      "country": "US",
+      "creation_date": "2005-02-15 05:13:12+00:00",
+      "expiration_date": "[datetime.datetime(2027, 2, 15, 5, 13, 12, tzinfo=tzoffset('UTC', 0)), datetime.datetime(2027, 2, 15, 0, 0, tzinfo=tzoffset('UTC', 0))]",
+      "name_servers": [
+        "NS1.GOOGLE.COM",
+        "NS2.GOOGLE.COM",
+        "NS3.GOOGLE.COM",
+        "NS4.GOOGLE.COM"
+      ],
+      "emails": [
+        "abusecomplaints@markmonitor.com",
+        "whoisrequest@markmonitor.com"
+      ]
+    },
+    "dns_records": {
+      "A": [
+        "142.250.70.46"
+      ],
+      "AAAA": [
+        "2404:6800:4000:101d::5d",
+        "2404:6800:4000:101d::88",
+        "2404:6800:4000:101d::be",
+        "2404:6800:4000:101d::5b"
+      ],
+      "CNAME": [],
+      "MX": [
+        "0 smtp.google.com."
+      ],
+      "NS": [
+        "ns3.google.com.",
+        "ns2.google.com.",
+        "ns1.google.com.",
+        "ns4.google.com."
+      ],
+      "TXT": [
+        "\"v=spf1 include:google.com mx -all\"",
+        "\"google-site-verification=QtQWEwHWM8tHiJ4s-jJWzEQrD_fF3luPnpzNDH-Nw-w\"",
+        "\"facebook-domain-verification=64jdes7le4h7e7lfpi22rijygx58j1\""
+      ],
+      "SOA": [
+        "ns1.google.com. dns-admin.google.com. 926589918 900 900 1800 60"
+      ],
+      "SRV": [],
+      "CAA": [
+        "0 issue \"pki.goog\""
+      ]
+    }
+  },
+  "ssl_info": {
+    "accountlinking-pa-clients6.youtube.com": {
+      "subject": "<Name(CN=*.google.com)>",
+      "issuer": "<Name(CN=WR2,O=Google Trust Services,C=US)>",
+      "serial_number": "283345452967219606464545296724364353355",
+      "not_before": "2026-05-18 18:35:21+00:00",
+      "not_after": "2026-08-10 18:35:20+00:00",
+      "days_remaining": 66,
+      "expired": false,
+      "expiring_soon": false,
+      "subject_alt_names": [
+        "*.google.com",
+        "*.appengine.google.com",
+        "*.bdn.dev",
+        "*.origin-test.bdn.dev",
+        "*.cloud.google.com",
+        "*.crowdsource.google.com",
+        "*.datacompute.google.com",
+        "*.google.ca",
+        "*.google.cl",
+        "*.google.co.in",
+        "*.google.co.jp",
+        "*.google.co.uk",
+        "*.google.com.ar",
+        "*.google.com.au",
+        "*.google.com.br",
+        "*.google.com.co",
+        "*.google.com.mx",
+        "*.google.com.tr",
+        "*.google.com.vn",
+        "*.google.de",
+        "*.google.es",
+        "*.google.fr",
+        "*.google.hu",
+        "*.google.it",
+        "*.google.nl",
+        "*.google.pl",
+        "*.google.pt",
+        "*.gemini.cloud.google.com",
+        "*.gstatic.com",
+        "*.metric.gstatic.com",
+        "*.gvt1.com",
+        "*.gcpcdn.gvt1.com",
+        "*.gvt2.com",
+        "*.gcp.gvt2.com",
+        "*.url.google.com",
+        "*.youtube-nocookie.com",
+        "*.ytimg.com",
+        "ai.android",
+        "android.com",
+        "*.android.com",
+        "*.flash.android.com",
+        "g.co",
+        "*.g.co",
+        "goo.gl",
+        "www.goo.gl",
+        "google-analytics.com",
+        "*.google-analytics.com",
+        "google.com",
+        "googlecommerce.com",
+        "*.googlecommerce.com",
+        "urchin.com",
+        "*.urchin.com",
+        "youtu.be",
+        "youtube.com",
+        "*.youtube.com",
+        "music.youtube.com",
+        "*.music.youtube.com",
+        "youtubeeducation.com",
+        "*.youtubeeducation.com",
+        "youtubekids.com",
+        "*.youtubekids.com",
+        "yt.be",
+        "*.yt.be",
+        "android.clients.google.com",
+        "*.aistudio.google.com"
+      ],
+      "signature_algorithm": "sha256WithRSAEncryption",
+      "version": 2
+    }
+  },
+  "takeovers": [],
+  "screenshots": [],
+  "js_analysis": [],
+  "end_time": "2026-06-05T18:19:47.137281"
+}
